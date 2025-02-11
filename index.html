@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Coding Conf 2025</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="container">
+    <div class="form-wrapper">
+      <div class="header">
+        <img src="assets/images/logo-mark.svg" alt="Coding Conf Logo" class="logo"><span class="coding-conf-text">Coding Conf</span>
+        <h1>Your Journey to Coding Conf 2025 Starts Here!</h1>
+        <p>Secure your spot at next year's biggest coding conference.</p>
+      </div>      
+      <form id="ticket-form">
+        <div class="form-group">
+            <label for="avatar">Télécharger un Avatar</label>
+            
+            <div class="upload-box">
+              <div class="photo">
+                  <a href="#" id="choose-link" class="btn-choose"><img src="assets/images/icon-upload.svg" alt="Votre Photo" class="photo-img" id="preview-img"></a>
+              </div>
+              <div class="button-group">
+                  <a href="">Drag and drop or click to upload</a>
+                  <input type="file" id="avatar" accept=".jpg, .png" hidden>
+              </div>
+          </div>
+          
+            <small>Upload your photo (JPG or PNG, max size: 500KB).</small>
+        </div>
+    
+        <div class="form-group">
+            <label for="full-name">Full Name</label>
+            <input type="text" id="full-name" placeholder="Enter your full name" required>
+        </div>
+        <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" placeholder="example@email.com" required>
+        </div>
+        <div class="form-group">
+            <label for="github">GitHub Username</label>
+            <input type="text" id="github" placeholder="@yourusername">
+        </div>
+    
+        <button type="submit" class="btn">Generate My Ticket</button>
+        <div id="error-message"></div>
+    </form>
+    
+    </div>
+  </main>
+  <script src="scripts.js"></script>
+</body>
+</html>
