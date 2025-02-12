@@ -2,79 +2,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Inconsolata&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Inconsolata:ital,wght@0,400;1,700&display=swap');
 
-h1 {
-  font-family: 'Inconsolata', monospace;
-  font-weight: 800;
-}
-
-p {
-  font-family: 'Inconsolata', monospace;
-  font-variation-settings: 'wght' 400, 'wdth' 100;
-}
-
-form, .form-group, label, input, button {
-  font-family: 'Inconsolata', monospace;
-  font-weight: normal;
-}
-.photo {
-  text-align: center;
-  margin-bottom: 15px;
-}
-
-.photo-img {
-  width: auto;  /* Permet à l’image de conserver son ratio */
-  max-width: 80px;  /* Limite la taille maximale sur grand écran */
-  height: auto;
-  display: block;
-  margin: 0 auto;
-}
-/* Style du lien "Choisir une photo" */
-#choose-link {
-  font-size: 16px;
-  color: #f8990a;
-  text-decoration: none;
-  font-weight: bold;
-  margin-top: 10px;
-  cursor: pointer;
-  transition: color 0.3s ease;
-}
-
-/* Effet au survol du lien */
-#choose-link:hover {
-  color: #e1640b;
-}
-.button-group a {
-  color: #f5f5f5;
-  text-decoration: none; /* Enlève le trait sous le lien */
-}
-
-/* --- Responsive --- */
-@media (max-width: 768px) {
-  .photo-img {
-    max-width: 40px;  /* Taille réduite sur tablette */
-  }
-}
-
-@media (max-width: 480px) {
-  .photo-img {
-    max-width: 20px;  /* Taille encore plus réduite sur mobile */
-  }
-}
-
-
-
-.upload-box {
-  border: 1.4px dashed #aaa;
-  border-radius: 19px;
-  padding: 20px;
-  text-align: center;
-  cursor: pointer;
-  height: 100px;
-}
-
 body {
   margin: 0;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Inconsolata', monospace;
   background: url('assets/images/background-desktop.png') no-repeat center center fixed;
   background-size: cover;
   color: #fff;
@@ -84,16 +14,22 @@ body {
   min-height: 100vh;
 }
 
+.container {
+  max-width: 600px;
+  padding: 30px;
+}
+
+.form-wrapper {
+  padding: 20px 30px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+/* En-tête */
 .header {
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-
-.logo-container {
-  display: flex;
-  align-items: center;
-  margin-bottom: 15px;
 }
 
 .logo {
@@ -107,35 +43,69 @@ body {
   color: white;
 }
 
-.container {
-  max-width: 600px;
-  padding: 20px;
-}
-
-.form-wrapper {
-  padding: 20px 30px;
-  border-radius: 10px;
-  text-align: center;
-}
-
-.header h1 {
+h1 {
   font-size: 24px;
-  margin: 0;
+  margin: 10px 0;
 }
 
-.header p {
+p {
   font-size: 14px;
-  margin: 10px 0 20px;
+  margin-bottom: 20px;
 }
 
-.btn-remove {
-  color: #8f8080;
-  background-color: transparent;
+/* Champ d'upload */
+.upload-box {
+  border: 1.4px dashed #aaa;
+  border-radius: 19px;
+  padding: 20px;
+  text-align: center;
+  cursor: pointer;
+  width: 100%;
+  max-width: 500px;
+  position: relative;
+  margin: 0 auto;
 }
 
+.photo {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.photo-img {
+  width: 100%;
+  height: 100%;
+  max-width: 150px;
+  max-height: 150px;
+  object-fit: cover;
+  display: block;
+  border-radius: 10px;
+  margin: 0 auto;
+}
+
+/* Lien choisir une photo */
+#choose-link {
+  font-size: 16px;
+  color: #f8990a;
+  text-decoration: none;
+  font-weight: bold;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+#choose-link:hover {
+  color: #e1640b;
+}
+
+.button-group a {
+  color: #f5f5f5;
+  text-decoration: none;
+}
+
+/* Champs du formulaire */
 .form-group {
   margin-bottom: 20px;
   text-align: left;
+  width: 520px;
 }
 
 label {
@@ -156,6 +126,7 @@ input[type="email"] {
   border: 1px solid #cccccc69;
 }
 
+/* Bouton */
 button.btn {
   background-color: #ff6600;
   color: #fff;
@@ -170,11 +141,15 @@ button.btn {
 button.btn:hover {
   background-color: #e65c00;
 }
-@media (max-width: 768px) {
 
+/* Responsive */
+@media (max-width: 768px) {
+  .photo-img {
+    max-width: 120px;
+    max-height: 120px;
+  }
 
   .upload-box {
-    height: 80px;
     padding: 15px;
   }
 
@@ -186,9 +161,12 @@ button.btn:hover {
 }
 
 @media (max-width: 480px) {
+  .photo-img {
+    max-width: 100px;
+    max-height: 100px;
+  }
 
   .upload-box {
-    height: 70px;
     padding: 10px;
   }
 
@@ -198,76 +176,3 @@ button.btn:hover {
     max-width: 220px;
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
- 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

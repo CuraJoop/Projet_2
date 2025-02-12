@@ -1,220 +1,247 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const form = document.getElementById("ticket-form");
-    const fullName = document.getElementById("full-name");
-    const email = document.getElementById("email");
-    const github = document.getElementById("github");
-    const avatarInput = document.getElementById("avatar");
-    const removeBtn = document.getElementById("remove-btn");
-    const errorMessage = document.getElementById("error-message");
-    const previewImg = document.getElementById("preview-img");
+  const form = document.getElementById("ticket-form");
+  const fullName = document.getElementById("full-name");
+  const email = document.getElementById("email");
+  const github = document.getElementById("github");
+  const avatarInput = document.getElementById("avatar");
+  const removeBtn = document.getElementById("remove-btn");
+  const errorMessage = document.getElementById("error-message");
+  const previewImg = document.getElementById("preview-img");
 
-    let avatarFile = null;
+  let avatarFile = null;
 
-    function showError(message) {
-        errorMessage.textContent = message;
-        errorMessage.style.color = "red";
-        errorMessage.setAttribute("role", "alert");
-    }
+  function showError(message) {
+      errorMessage.textContent = message;
+      errorMessage.style.color = "red";
+      errorMessage.setAttribute("role", "alert");
+  }
 
-    function clearError() {
-        errorMessage.textContent = "";
-    }
+  function clearError() {
+      errorMessage.textContent = "";
+  }
 
-    function validateEmail(email) {
-        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return re.test(email);
-    }
+  function validateEmail(email) {
+      const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return re.test(email);
+  }
 
-    function validateAvatar(file) {
-        const validTypes = ["image/jpeg", "image/png"];
-        if (!file) return true;
-        if (!validTypes.includes(file.type)) {
-            showError("Invalid image format. Only JPG and PNG are allowed.");
-            return false;
-        }
-        if (file.size > 500000) {
-            showError("File size too large. Maximum allowed is 500KB.");
-            return false;
-        }
-        return true;
-    }
+  function validateAvatar(file) {
+      const validTypes = ["image/jpeg", "image/png"];
+      if (!file) return true;
+      if (!validTypes.includes(file.type)) {
+          showError("Invalid image format. Only JPG and PNG are allowed.");
+          return false;
+      }
+      if (file.size > 500000) {
+          showError("File size too large. Maximum allowed is 500KB.");
+          return false;
+      }
+      return true;
+  }
 
-    // Handle avatar input change
-    avatarInput.addEventListener("change", (event) => {
-        const file = event.target.files[0];
-        if (validateAvatar(file)) {
-            avatarFile = file;
-            const reader = new FileReader();
-            reader.onload = function(event) {
-                previewImg.src = event.target.result; // Display the image
-            };
-            reader.readAsDataURL(file);
-            clearError();
-        } else {
-            avatarInput.value = ""; // Clear input if invalid file
-            previewImg.src = "assets/images/icon-upload.svg"; // Reset preview
-        }
-    });
+  avatarInput.addEventListener("change", (event) => {
+      const file = event.target.files[0];
+      if (validateAvatar(file)) {
+          avatarFile = file;
+          const reader = new FileReader();
+          reader.onload = function(event) {
+              previewImg.src = event.target.result;
+          };
+          reader.readAsDataURL(file);
+          clearError();
+      } else {
+          avatarInput.value = "";
+          previewImg.src = "assets/images/icon-upload.svg";
+      }
+  });
 
-    // Handle file input click via custom link
-    document.getElementById("choose-link").addEventListener("click", (e) => {
-        e.preventDefault(); // Prevent default link behavior
-        avatarInput.click(); // Trigger file input
-    });
+  document.getElementById("choose-link").addEventListener("click", (e) => {
+      e.preventDefault();
+      avatarInput.click();
+  });
 
-    // Handle form submit
-    form.addEventListener("submit", (event) => {
-        event.preventDefault();
-        clearError();
+  form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      clearError();
 
-        if (!fullName.value.trim()) {
-            showError("Full name is required.");
-            return;
-        }
-        if (!email.value.trim() || !validateEmail(email.value)) {
-            showError("Valid email is required.");
-            return;
-        }
-        if (!validateAvatar(avatarFile)) {
-            return;
-        }
+      if (!fullName.value.trim()) {
+          showError("Full name is required.");
+          return;
+      }
+      if (!email.value.trim() || !validateEmail(email.value)) {
+          showError("Valid email is required.");
+          return;
+      }
+      if (!validateAvatar(avatarFile)) {
+          return;
+      }
 
-        generateTicket();
-    });
+      generateTicket();
+  });
 
-    // Generate ticket content
-    function generateTicket() {
-        const ticketContainer = document.createElement("div");
-        ticketContainer.classList.add("ticket-container");
+  function generateTicket() {
+      document.body.innerHTML = `
+      <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inconsolata&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inconsolata:ital,wght@0,400;1,700&display=swap');
 
-        ticketContainer.innerHTML = `
-<style>
-        body {
-          font-family: Arial, sans-serif;
-          background: linear-gradient(135deg,rgb(227, 217, 233),rgb(105, 81, 244));
-          background-size: cover;
-          color: #fff;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          min-height: 100vh;
-          margin: 0;
-          position: relative;
-        }
+/* Style global */
+body {
+  font-family: 'Inter', sans-serif;
+  background: url('assets/images/background-desktop.png') no-repeat center center fixed;
+  background-size: cover;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+  position: relative;
+  text-align: center;
+}
 
-        body::before {
-          content: "";
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          background: url('abstract-pattern.svg') repeat;
-          opacity: 0.3;
-          pointer-events: none;
-        }
+/* Conteneur du ticket */
+.ticket-container {
+  border-radius: 20px;
+  padding: 30px;
+  width: 400px;
+  text-align: center;
+}
 
-        .ticket-container {
-          background: rgba(12, 5, 92, 0.7);
-        background: url('assets/images/background-mobile.png') repeat;
+/* Titre principal du ticket (plus grand texte) */
+.ticket-message h2 {
+  font-family: 'Inconsolata', monospace;
+  font-size: 2.2rem; /* Texte plus grand */
+  font-weight: bold;
+  color: white;
+}
 
-          border-radius: 15px;
-          padding: 20px;
-          width: 350px;
-          text-align: center;
-          box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
-        }
+/* Texte de mise en surbrillance */
+.highlight {
+  color: #ff7f50;
+}
 
-        .ticket-message h2 {
-          font-size: 1.5rem;
-          font-weight: bold;
-          color: white;
-        }
+/* Message du ticket */
+.ticket-message p {
+  font-family: 'Inconsolata', monospace;
+  font-size: 1.2rem; /* Texte légèrement plus grand */
+  color: white;
+}
 
-        .highlight {
-          color: orange;
-        }
+/* Ticket */
+.ticket {
+  margin-top: 20px;
+  border-radius: 15px;
+  background: linear-gradient(135deg, rgb(104, 104, 107) 0%, rgb(130, 131, 132) 100%);
+  color: #fff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  padding: 15px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
 
-        .ticket-message p {
-          font-size: 1rem;
-          color: white;
-        }
+/* Décoration après le ticket */
+.ticket::after {
+  content: '';
+  position: absolute;
+  right: -10px;
+  top: 50%;
+  width: 20px;
+  height: 40px;
+  background: rgb(188, 189, 193);
+  border-radius: 10px;
+  transform: translateY(-50%);
+}
 
-        .ticket {
-          margin-top: 20px;
-          border-radius: 10px;
-          overflow: hidden;
-          background: #fff;
-          color: #333;
-          box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
+/* Header du ticket */
+.ticket-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'Inconsolata', monospace;
+  font-size: 1.5rem; /* Texte plus grand pour le header */
+  font-weight: bold;
+  color: #ff7f50;
+}
 
-        .ticket-header {
-          padding: 10px;
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          background-color: #6a1b9a;
-          color: white;
-        }
+/* Logo du ticket */
+.ticket-logo {
+  width: 25px;
+  height: 25px;
+}
 
-        .ticket-logo {
-          width: 30px;
-          height: 30px;
-        }
+/* Date du ticket */
+.ticket-date {
+  font-family: 'Inconsolata', monospace;
+  font-size: 1rem; /* Taille moyenne */
+  color: #ccc;
+}
 
-        .ticket-date {
-          font-size: 1rem;
-          text-align: center;
-          padding: 10px 0;
-        }
+/* Section utilisateur */
+.ticket-user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
 
-        .ticket-user {
-          display: flex;
-          justify-content: center;
-          padding: 10px;
-        }
+/* Avatar de l'utilisateur */
+.ticket-avatar {
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+}
 
-        .ticket-avatar {
-          border-radius: 50%;
-          width: 50px;
-          height: 50px;
-          margin-right: 10px;
-        }
+/* Informations sur l'utilisateur */
+.ticket-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
 
-        .ticket-name {
-          font-weight: bold;
-        }
+/* Nom de l'utilisateur */
+.ticket-name {
+  font-family: 'Inconsolata', monospace;
+  font-weight: bold;
+  font-size: 1.1rem; /* Texte un peu plus petit */
+}
 
-        .ticket-github {
-          font-style: italic;
-          color: gray;
-        }
+/* GitHub de l'utilisateur */
+.ticket-github {
+  font-family: 'Inconsolata', monospace;
+  font-size: 0.9rem; /* Texte plus petit */
+  color: #bbb;
+}
+p {
+  font-family: 'Inconsolata', monospace; /* Appliquer Inconsolata Regular à tous les <p> */
+  font-size: 1rem; /* Ajuster la taille si nécessaire */
+  color: white; /* S'assurer que le texte reste blanc */
+}
       </style>
 
-      <div class="ticket-message">
-        <h2>🎉 Congrats, <span class="highlight">${fullName.value}</span>!</h2>
-        <p>Your ticket is ready.</p>
-        <p>We've emailed your ticket to <span class="highlight">${email.value}</span> and will send updates before the event.</p>
-      </div>
-
-      <div class="ticket">
-        <div class="ticket-header">
-          <img src="assets/images/logo-mark.svg" alt="Coding Conf Logo" class="ticket-logo">
-          <span>Coding Conf</span>
-        </div>
-        <p class="ticket-date">Feb 11, 2025 / Austin, TX</p>
-        <div class="ticket-user">
-          ${avatarFile ? `<img src="${URL.createObjectURL(avatarFile)}" alt="User Avatar" class="ticket-avatar">` : ''}
-          <div>
-            <p class="ticket-name">${fullName.value}</p>
-            <p class="ticket-github">${github.value || "N/A"}</p>
+      <div class="ticket-container">
+          <div class="ticket-message">
+              <h2>🎉 Congrats, <span class="highlight">${fullName.value}</span>!</h2>
+              <p>Your ticket is ready.</p>
+              <p>We've emailed your ticket to <span class="highlight">${email.value}</span>.</p>
           </div>
-        </div>
+          <div class="ticket">
+              <div class="ticket-header">
+                  <img src="assets/images/logo-mark.svg" alt="Coding Conf Logo" width="30">
+                  <span>Coding Conf</span>
+              </div>
+              <p>Feb 11, 2025 / Austin, TX</p>
+              <div class="ticket-user">
+                  ${avatarFile ? `<img src="${URL.createObjectURL(avatarFile)}" class="ticket-avatar">` : ''}
+                  <div>
+                      <p>${fullName.value}</p>
+                      <p>${github.value || "N/A"}</p>
+                  </div>
+              </div>
+          </div>
       </div>
-        `;
-
-        document.body.innerHTML = ""; // Clear the body
-        document.body.appendChild(ticketContainer); // Append the ticket
-    }
+      `;
+  }
 });
